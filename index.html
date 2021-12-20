@@ -42,7 +42,7 @@
   var arrayTumbas = [];
   var arrayNacimientos = [];
   var arrayAsesinatos = [];
-  var cantidadSeres = 50;
+  var cantidadSeres = 1;
   var tamañoPlano = 1000;
   var spawnArea = tamañoPlano / 2;
   var tamañoser = 3;
@@ -107,7 +107,7 @@
           color: parseInt(aparienciaColor),
           wireframe: false,
         });
-
+        ser.name = nombre + r1 + r2 + r3;
         ser.geometry = ser_geometry;
         ser.material = ser_material;
         ser.scale.set(0.1, 0.1, 0.1);
@@ -180,7 +180,7 @@
       });
     }
   }
-  console.log(arraySeres);
+
   agregarLuz();
   crearRecursos();
   crearAlimento();
@@ -422,6 +422,7 @@
             var selectedObject = scene.getObjectByName(recursoABorrar);
             scene.remove(selectedObject);
             arraySeres[i].userData.recursos += recursoCantidad;
+            arraySeres[i].parent.userData.recursos += recursoCantidad;
             arrayRecursos.splice(j, 1);
           }
         }
@@ -470,7 +471,7 @@
         var ser1 = arraySeres[i];
         var ser2 = arraySeres[w];
         var res = checkearSiSeTocan(ser1, ser2);
-        var random = Math.floor(Math.random() * (300 - 0)) + 0;
+        var random = Math.floor(Math.random() * (800 - 0)) + 0;
         if (
           res === true &&
           random == 10 &&
@@ -582,6 +583,7 @@
             var selectedObject = scene.getObjectByName(recursoABorrar);
             scene.remove(selectedObject);
             arraySeres[i].userData.alimento += alimentoCantidad;
+            arraySeres[i].parent.userData.alimento += alimentoCantidad;
             arrayAlimentos.splice(j, 1);
           }
         }
@@ -650,14 +652,18 @@
         var checkNormalSize = Object.keys(checkNormal)?.length;
         if (checkNormalSize > checkParentSize && objeto.length != 0) {
           mostrarInfo(checkNormal);
+          console.log("viene del normal");
         } else {
           mostrarInfo(checkParent);
+          console.log("viene del parent");
         }
         if (checkNormal.nombre == "mundo") {
           cerrarMenu();
         }
       }
     }
+
+    console.log(arraySeres);
   });
 
   function naceSer(ser1, ser2) {
@@ -713,6 +719,7 @@
       ser.traverse(function (object) {
         if (object.isMesh) object.castShadow = true;
         object.material = ser_material;
+        object.name = nombre + r1 + r2 + r3;
         object.material.color.set(aparienciaColor);
         object.userData = {
           nombre: nombre,
@@ -826,7 +833,7 @@
 
   function crearTumba(posx, posz, asesino, victima) {
     new GLTFLoader().load("./assets/tumba.glb", function (gltf) {
-      var aparienciaColor = "0x6666FF";
+      var aparienciaColor = "0x999999";
       var ser_material = new THREE.MeshPhongMaterial({
         color: parseInt(aparienciaColor),
         wireframe: false,
@@ -882,25 +889,35 @@
       var salud = arraySeres[j].userData.salud;
       salud -= speed;
       arraySeres[j].userData.salud = salud.toFixed([2]);
+
+      var salud = arraySeres[j].parent.userData.salud;
+      salud -= speed;
+      arraySeres[j].parent.userData.salud = salud.toFixed([2]);
     }
   }
   function muertePorHambre() {
     for (var i = 0; i < arraySeres.length; i++) {
       var estadoSalud = arraySeres[i]?.userData.salud;
-
+      var nombre = arraySeres[i].userData.nombre;
+      var nacimiento = arraySeres[i].userData.nacimiento;
+      var posX = arraySeres[i].position.x;
+      var posZ = arraySeres[i].position.z;
+      
       if (estadoSalud <= 5) {
-        var nombre = arraySeres[i].userData.nombre;
-        var nacimiento = arraySeres[i].userData.nacimiento;
-        var posX = arraySeres[i].position.x;
-        var posZ = arraySeres[i].position.z;
-        var serMuere = arraySeres[i].userData.codigo;
-        console.log(nombre + " muere.");
-        mostrarAcontecimiento(nombre + " muere.");
         new GLTFLoader().load("./assets/tumba.glb", function (gltf) {
+          var aparienciaColor = "0x999999";
+          var ser_material = new THREE.MeshPhongMaterial({
+            color: parseInt(aparienciaColor),
+            wireframe: false,
+          });
+
           const model = gltf.scene;
           model.traverse(function (object) {
             if (object.isMesh) object.castShadow = true;
+            object.material = ser_material;
+            object.material.color.set(aparienciaColor);
           });
+
           model.userData = {
             nombre: "Tumba",
             RIP: nombre,
@@ -918,6 +935,10 @@
           scene.add(model);
           arrayTumbas.push(model);
         });
+        var nombre = arraySeres[i].userData.nombre;
+        var serMuere = arraySeres[i].userData.codigo;
+        console.log(nombre + " muere.");
+        mostrarAcontecimiento(nombre + " muere.");
         var selectedObject = scene.getObjectByName(serMuere);
         scene.remove(selectedObject);
         arraySeres.splice(i, 1);
