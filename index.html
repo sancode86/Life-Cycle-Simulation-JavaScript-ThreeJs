@@ -652,16 +652,15 @@
         var checkNormalSize = Object.keys(checkNormal)?.length;
         if (checkNormalSize > checkParentSize && objeto.length != 0) {
           mostrarInfo(checkNormal);
-          console.log("viene del normal");
         } else {
           mostrarInfo(checkParent);
-          console.log("viene del parent");
         }
         if (checkNormal.nombre == "mundo") {
           cerrarMenu();
         }
       }
     }
+    console.log(arraySeres[0].userData);
 
     console.log(arraySeres);
   });
@@ -890,9 +889,13 @@
       salud -= speed;
       arraySeres[j].userData.salud = salud.toFixed([2]);
 
-      var salud = arraySeres[j].parent.userData.salud;
-      salud -= speed;
-      arraySeres[j].parent.userData.salud = salud.toFixed([2]);
+      var buscarId = arraySeres[j].userData.codigo;
+      var selectedObject = scene.getObjectByName(buscarId);
+      selectedObject.userData.salud = salud.toFixed([2]);
+
+      // var salud = arraySeres[j].parent.userData.salud;
+      // salud -= speed;
+      // arraySeres[j].parent.userData.salud = salud.toFixed([2]);
     }
   }
   function muertePorHambre() {
@@ -902,7 +905,7 @@
       var nacimiento = arraySeres[i].userData.nacimiento;
       var posX = arraySeres[i].position.x;
       var posZ = arraySeres[i].position.z;
-      
+
       if (estadoSalud <= 5) {
         new GLTFLoader().load("./assets/tumba.glb", function (gltf) {
           var aparienciaColor = "0x999999";
