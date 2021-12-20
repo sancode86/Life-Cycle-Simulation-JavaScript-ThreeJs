@@ -1,0 +1,134 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
+html,
+* {
+  margin: 0;
+  font-family: "Roboto", sans-serif !important;
+  font-size: medium;
+}
+.close {
+  cursor: pointer;
+  color: #bdbdbfe0;
+  border: 1px solid transparent;
+  background-color: transparent;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-weight: bold;
+  padding: 10px;
+  font-size: medium;
+}
+.info {
+  text-align: center;
+  width: 310px;
+  background-color: white;
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+.cantidadSeres {
+  text-align: center;
+  min-width: fit-content;
+  background-color: white;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  border-radius: 10px;
+  padding: 10px;
+}
+.hora {
+  text-align: center;
+  min-width: fit-content;
+  background-color: white;
+  position: absolute;
+  top: 80px;
+  right: 30px;
+  border-radius: 10px;
+  padding: 10px;
+}
+.acotencimiento {
+  text-align: center;
+  align-items: center;
+  align-content: center;
+  min-width: 310px;
+  width: fit-content;
+  min-height: 20px;
+  background-color: #ffffffe0;
+  position: absolute;
+  bottom: 30px;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+.historial {
+  text-align: center;
+  align-items: center;
+  align-content: center;
+  width: 500px;
+  min-height: 20px;
+  background-color: #ffffffe0;
+  position: absolute;
+  top: 30px;
+  border-radius: 10px;
+  padding: 10px;
+  overflow-y: auto;
+  max-height: 740px;
+  overflow-x: hidden;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+.tabla {
+  text-align: center;
+  align-items: center;
+  align-content: center;
+  width: 450px;
+  margin: auto;
+}
+.historialBoton {
+  text-align: center;
+  min-width: fit-content;
+  background-color: white;
+  position: absolute;
+  top: 130px;
+  right: 30px;
+  border-radius: 10px;
+  padding: 10px;
+  font-family: "Roboto", sans-serif !important;
+  font-size: medium;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  border: 0px solid transparent;
+}
+.historialBoton:hover {
+  cursor: pointer;
+}
+.circulo {
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  margin: auto;
+}
+.thTabla {
+  background-color: #bdbdbfe0;
+  padding: 10px;
+}
+table,
+th,
+tr {
+  margin: 0px;
+  padding: 0px;
+  border: 1px solid #bdbdbfe0;
+  border-collapse: collapse;
+}
+.close2 {
+  cursor: pointer;
+  color: #bdbdbfe0;
+  border: 1px solid transparent;
+  background-color: transparent;
+  position: absolute;
+  top: 5px;
+  right: -8px;
+  font-weight: bold;
+  padding: 10px;
+  font-size: xx-large;
+}
