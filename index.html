@@ -123,7 +123,6 @@
           2,
           Math.random() * 2 - 1
         ).normalize();
-       
 
         var randomVel = Math.random() * (1.1 - 0.1) + 0.1;
         var randomSalud = (Math.random() * (150 - 95) + 95).toFixed(2);
@@ -134,7 +133,7 @@
         ser.traverse(function (object) {
           if (object.isMesh) object.castShadow = true;
           object.material = ser_material;
-          object.name = nombre + r1 + r2 + r3;;
+          object.name = nombre + r1 + r2 + r3;
           object.material.color.set(aparienciaColor);
           object.userData = {
             nombre: nombre,
@@ -662,10 +661,20 @@
         }
       }
     }
-    console.log("encontrados", encontrados);
-    console.log("objeto?.userData",  objeto?.userData);
-    console.log("objeto?.parent.userData", objeto?.parent.userData);
-    console.log(arraySeres);
+
+    var FOUND = -1;
+    for (var i = 0; i < arraySeres.length; i++) {
+      if (
+        arraySeres[i].userData.codigo == encontrados[0].object.userData.codigo
+      ) {
+        FOUND = i;
+        console.log("FOUND", FOUND);
+        break;
+      }
+    }
+    if (FOUND != null || FOUND != "undefined") {
+      mostrarInfo(arraySeres[FOUND].userData);
+    }
   });
 
   function naceSer(ser1, ser2) {
@@ -888,33 +897,33 @@
 
   function restarSaludSeres(speed) {
     for (let j = 0; j < arraySeres.length; j++) {
-      var salud = arraySeres[j].userData.salud;      
+      var salud = arraySeres[j].userData.salud;
       var infoSer = arraySeres[j].userData;
       var buscarId = arraySeres[j].userData.codigo;
-      var selectedObject = scene.getObjectByName(buscarId);  
-      
+      var selectedObject = scene.getObjectByName(buscarId);
+
       salud -= speed;
-      arraySeres[j].userData.salud = salud.toFixed([2]);   
+      arraySeres[j].userData.salud = salud.toFixed([2]);
 
       selectedObject.userData = {
-            nombre: infoSer.nombre,
-            estado: infoSer.estado,
-            salud:  salud.toFixed([2]),
-            nacimiento: infoSer.nacimiento,
-            tipo: infoSer.tipo,
-            recursos: infoSer.recursos,
-            padres: infoSer.padres,
-            antepasados: infoSer.antepasados,
-            generacion: infoSer.generacion,
-            alimento: infoSer.alimento,
-            asesinatos: infoSer.asesinatos,
-            agresividad: infoSer.agresividad,
-            casasPropias: infoSer.casasPropias,
-            color: infoSer.color,
-            velocidad: infoSer.velocidad,
-            orientacion: infoSer.orientacion,
-            codigo: infoSer.codigo,
-          };
+        nombre: infoSer.nombre,
+        estado: infoSer.estado,
+        salud: salud.toFixed([2]),
+        nacimiento: infoSer.nacimiento,
+        tipo: infoSer.tipo,
+        recursos: infoSer.recursos,
+        padres: infoSer.padres,
+        antepasados: infoSer.antepasados,
+        generacion: infoSer.generacion,
+        alimento: infoSer.alimento,
+        asesinatos: infoSer.asesinatos,
+        agresividad: infoSer.agresividad,
+        casasPropias: infoSer.casasPropias,
+        color: infoSer.color,
+        velocidad: infoSer.velocidad,
+        orientacion: infoSer.orientacion,
+        codigo: infoSer.codigo,
+      };
     }
   }
   function muertePorHambre() {
