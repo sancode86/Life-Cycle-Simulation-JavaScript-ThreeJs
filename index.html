@@ -77,6 +77,7 @@
     var material = new THREE.MeshLambertMaterial({
       map: loader.load("./img/terreno.jpg"),
     });
+    
     var geometry = new THREE.PlaneGeometry(tamañoPlano, tamañoPlano);
     var plane = new THREE.Mesh(geometry, material);
 
@@ -186,6 +187,7 @@
   crearRecursos();
   crearAlimento();
   crearRocas();
+  crearSkybox();
 
   function generarNuevaOrientacion() {
     return (direction = new THREE.Vector3(
@@ -1153,6 +1155,34 @@
     //     // ser.rotation = quaternion;
     //     console.log(ser.rotation)
     // console.log(quaternion)
+  }
+
+
+  function crearSkybox(){
+    let materialArray = [];
+    let texture_up = new THREE.TextureLoader().load("img/skybox/up.jpg");
+    let texture_rt = new THREE.TextureLoader().load("img/skybox/rt.jpg");
+    let texture_lf = new THREE.TextureLoader().load("img/skybox/lf.jpg");
+    let texture_ft = new THREE.TextureLoader().load("img/skybox/ft.jpg");
+    let texture_dn = new THREE.TextureLoader().load("img/skybox/dn.jpg");
+    let texture_bk = new THREE.TextureLoader().load("img/skybox/bk.jpg");
+    materialArray.push(new THREE.MeshBasicMaterial({ map: texture_ft }));
+    materialArray.push(new THREE.MeshBasicMaterial({ map: texture_bk }));
+    materialArray.push(new THREE.MeshBasicMaterial({ map: texture_up }));
+    materialArray.push(new THREE.MeshBasicMaterial({ map: texture_dn }));
+    materialArray.push(new THREE.MeshBasicMaterial({ map: texture_rt }));
+    materialArray.push(new THREE.MeshBasicMaterial({ map: texture_lf }));
+    for (let i = 0; i < 6; i++) materialArray[i].side = THREE.BackSide;
+    let skyboxGeo = new THREE.BoxGeometry(7000, 7000, 7000);
+    var skybox = new THREE.Mesh(skyboxGeo, materialArray);
+    skybox.castShadow = true;
+    skybox.receiveShadow = true;
+    skybox.userData = {
+      nombre: "universo",
+      tipo: "infinito",
+    };
+    scene.add(skybox);
+
   }
 </script>
 
