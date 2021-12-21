@@ -14,7 +14,6 @@
     </button>
     <div style="display: none" id="info" class="info"></div>
     <div style="display: none" id="historial" class="historial"></div>
-
     <div
       style="display: block"
       id="cantidadSeresTexto"
@@ -42,10 +41,10 @@
   var arrayTumbas = [];
   var arrayNacimientos = [];
   var arrayAsesinatos = [];
-  var cantidadSeres = 1;
+  var cantidadSeres = 20;
   var tamañoPlano = 1000;
   var spawnArea = tamañoPlano / 2;
-  var tamañoser = 3;
+  var tamañoser = 1.2;
   var arrayRecursos = [];
   var arrayCasas = [];
   var cantidadRecursos = 10;
@@ -72,15 +71,12 @@
     renderer.setClearColor(0x000000);
     document.body.appendChild(renderer.domElement);
     controls = new OrbitControls(camera, renderer.domElement);
-
     var loader = new THREE.TextureLoader();
     var material = new THREE.MeshLambertMaterial({
       map: loader.load("./img/terreno.jpg"),
-    });
-    
+    });    
     var geometry = new THREE.PlaneGeometry(tamañoPlano, tamañoPlano);
     var plane = new THREE.Mesh(geometry, material);
-
     plane.rotation.x = Math.PI / 2;
     plane.rotation.y = Math.PI / 1;
     plane.userData = {
@@ -89,15 +85,11 @@
     };
     scene.add(plane);
   }
-
   function crearSer(cantidad) {
-    // ser
     for (let j = 0; j < cantidad; j++) {
       var ser_geometry = new THREE.BoxGeometry(10, 10, 10);
-
       var antepasados = [];
       antepasados.push("El Universo");
-
       new GLTFLoader().load("./assets/ser.glb", function (gltf) {
         const ser = gltf.scene;
         var nombre = generatenombre();
@@ -112,25 +104,22 @@
         ser.name = nombre + r1 + r2 + r3;
         ser.geometry = ser_geometry;
         ser.material = ser_material;
-        ser.scale.set(0.1, 0.1, 0.1);
+        ser.scale.set(0.1 * tamañoser, 0.1 * tamañoser, 0.1 * tamañoser);
         ser.position.x =
           Math.floor(Math.random() * (spawnArea - -spawnArea)) + -spawnArea;
         ser.position.y = 0;
         ser.position.z =
           Math.floor(Math.random() * (spawnArea - -spawnArea)) + -spawnArea;
-
         var orientacion = new THREE.Vector3(
           Math.random() * 2 - 1,
           2,
           Math.random() * 2 - 1
         ).normalize();
-
         var randomVel = Math.random() * (1.1 - 0.1) + 0.1;
         var randomSalud = (Math.random() * (150 - 95) + 95).toFixed(2);
         var randomAgresividad = Math.floor(
           Math.random() * (150 - 95) + 95
         ).toFixed(2);
-
         ser.traverse(function (object) {
           if (object.isMesh) object.castShadow = true;
           object.material = ser_material;
@@ -156,7 +145,6 @@
             codigo: nombre + r1 + r2 + r3,
           };
         });
-
         ser.userData = {
           nombre: nombre,
           estado: "Vivo",
@@ -182,13 +170,11 @@
       });
     }
   }
-
   agregarLuz();
   crearRecursos();
   crearAlimento();
   crearRocas();
   crearSkybox();
-
   function generarNuevaOrientacion() {
     return (direction = new THREE.Vector3(
       Math.random() * 2 - 1,
@@ -217,7 +203,6 @@
   function render() {
     renderer.render(scene, camera);
   }
-
   function actualizarSeresNumero() {
     var texto = document.getElementById("cantidadSeresTexto");
     texto.innerHTML = "";
@@ -231,7 +216,6 @@
       " Asesinatos: " +
       arrayAsesinatos.length;
   }
-
   function movimientoSeres() {
     for (let j = 0; j < arraySeres.length; j++) {
       var random = Math.floor(Math.random() * (200 - 0)) + 0;
@@ -239,7 +223,6 @@
       var vel = arraySeres[j].userData.velocidad;
       if (random == 10) {
         var nuevaOrientacion = generarNuevaOrientacion();
-
         shift.copy(nuevaOrientacion).multiplyScalar(delta * (speed * vel));
         arraySeres[j].position.add(shift);
         arraySeres[j].userData.orientacion = nuevaOrientacion;
@@ -249,7 +232,6 @@
         arraySeres[j].position.add(shift);
         arraySeres[j].position.y = 1;
       }
-
       //POR HACER
       // rotarSerAlMoverse(arraySeres[j]);
     }
@@ -306,16 +288,16 @@
   }
   function agregarLuz() {
     const sol = new THREE.AmbientLight(
-      0x979797, //color
-      2 //intensidad
+      0x979797,
+      2 
     );
     sol.position.z = 15;
     sol.position.x = 15;
     sol.position.y = 15;
     scene.add(sol);
     const spotlight = new THREE.SpotLight(
-      0x979797, //color
-      2 //intensidad
+      0x979797, 
+      2 
     );
     spotlight.castShadow = true;
     var shadowQuality = 1024;
@@ -334,7 +316,7 @@
       var tipo = "Casa";
       var random = Math.floor(Math.random() * (250 - 0)) + 0;
       if (recursosSer >= 10 && random == 10) {
-        crear(posXSer, posZSer, 0.02, tipo, nombreSer);
+        crear(posXSer, posZSer, 0.05, tipo, nombreSer);
         arraySeres[w].userData.recursos -= 10;
         arraySeres[w].userData.casasPropias += 1;
         // console.log(arraySeres[w].userData.nombre + " construye casa.");
@@ -349,7 +331,6 @@
     var textureLoader = new THREE.TextureLoader();
     var map = textureLoader.load("./img/1.jpg");
     var material = new THREE.MeshPhongMaterial({ map: map });
-
     var loader = new OBJLoader();
     loader.load("./assets/casa.obj", function (object) {
       object.traverse(function (node) {
@@ -362,7 +343,6 @@
       }
       var random = Math.floor(Math.random() * (250 - 0)) + 0;
       object.rotation.z = random;
-
       object.userData = {
         nombre: "Casa",
         dueño: nombreSer,
@@ -405,7 +385,7 @@
           cantidad: random,
           tipo: "Recurso",
         };
-        recurso.scale.set(0.04, 0.04, 0.04);
+        recurso.scale.set(0.07, 0.07, 0.07);
         var recurso_geometry = new THREE.BoxGeometry(15, 15, 15);
         recurso.geometry = recurso_geometry;
         scene.add(recurso);
@@ -490,7 +470,6 @@
       }
     }
   }
-
   function mostrarTexto(position) {
     var vectorTrans = toXYCoords(position);
     var text2 = document.createElement("div");
@@ -498,12 +477,11 @@
     text2.style.width = 100;
     text2.style.height = 100;
     text2.style.backgroundColor = "blue";
-    text2.innerHTML = "hi there!";
+    text2.innerHTML = "prueba!";
     text2.style.top = vectorTrans.x + "px";
     text2.style.left = vectorTrans.y + "px";
     document.body.appendChild(text2);
   }
-
   function mostrarInfo(arrayConDatos) {
     var datos = JSON.stringify(arrayConDatos);
     var cartel = document.getElementById("info");
@@ -511,13 +489,11 @@
     cartel.style.display = "block";
     cartel.style.backgroundColor = "white";
     var output = "";
-
     var boton = document.createElement("button");
     boton.setAttribute("class", "close");
     boton.setAttribute("onclick", "ocultarMenu()");
     boton.innerHTML = "X";
     cartel.appendChild(boton);
-
     for (var property in arrayConDatos) {
       if (property != "orientacion") {
         output = property + ": " + arrayConDatos[property];
@@ -528,10 +504,8 @@
       if (property == "color") {
         var colorString = arrayConDatos[property];
         var colorBorde = "#" + colorString;
-
         var circulo = document.createElement("div");
         circulo.setAttribute("class", "circulo");
-
         circulo.style.backgroundColor = colorBorde;
         cartel.appendChild(circulo);
       }
@@ -573,7 +547,6 @@
       });
     }
   }
-
   function checkearJuntarAlimentos() {
     if (arrayAlimentos.length > 0) {
       for (let i = 0; i < arraySeres.length; i++) {
@@ -596,11 +569,9 @@
     }
   }
   // testModel();
-
   function testModel() {
     new GLTFLoader().load("./assets/ser.glb", function (gltf) {
       const model = gltf.scene;
-
       var r1 = Math.floor(Math.random() * (80 - 10)) + 10;
       var r2 = Math.floor(Math.random() * (80 - 10)) + 10;
       var r3 = Math.floor(Math.random() * (80 - 10)) + 10;
@@ -630,7 +601,6 @@
       scene.add(model);
     });
   }
-
   window.addEventListener("resize", onWindowResize, false);
   function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -638,7 +608,6 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.render(scene, camera);
   }
-
   const raycaster = new THREE.Raycaster();
   const clicMouse = new THREE.Vector2();
   const moveMouse = new THREE.Vector2();
@@ -660,29 +629,26 @@
         } else {
           mostrarInfo(checkParent);
         }
-        if (checkNormal.nombre == "mundo") {
+        if (checkNormal.nombre == "mundo" || checkNormal.nombre == "universo") {
           cerrarMenu();
         }
       }
     }
-
-    var FOUND = -1;
+    var DATOENCONTRADO = -1;
     for (var i = 0; i < arraySeres.length; i++) {
       if (
         arraySeres[i].userData.codigo == encontrados[0].object.userData.codigo
       ) {
-        FOUND = i;
-        // console.log("FOUND", FOUND);
+        DATOENCONTRADO = i;       
         break;
       }
     }
-    if (FOUND != null || FOUND != undefined) {
-      if (arraySeres[FOUND] != undefined) {
-        mostrarInfo(arraySeres[FOUND].userData);
+    if (DATOENCONTRADO != null || DATOENCONTRADO != undefined) {
+      if (arraySeres[DATOENCONTRADO] != undefined) {
+        mostrarInfo(arraySeres[DATOENCONTRADO].userData);
       }
     }
   });
-
   function naceSer(ser1, ser2) {
     var orientacion = new THREE.Vector3(
       Math.random() * 2 - 1,
@@ -691,7 +657,6 @@
     ).normalize();
     var nombre = generatenombre();
     var randomVel = Math.random() * (1.1 - 0.1) + 0.1;
-
     var randomSalud = Math.random() * (3 - 0) + 0;
     var randomAgresividad = Math.random() * (3 - 0) + 0;
     if (randomSalud == 1) {
@@ -704,7 +669,6 @@
     } else {
       var genAgre = ser2.userData.agresividad;
     }
-
     var antepasados = [];
     antepasados.push(
       "Gen Madre " +
@@ -723,7 +687,6 @@
     );
     new GLTFLoader().load("./assets/ser.glb", function (gltf) {
       const ser = gltf.scene;
-
       var r1 = Math.floor(Math.random() * (80 - 10)) + 10;
       var r2 = Math.floor(Math.random() * (80 - 10)) + 10;
       var r3 = Math.floor(Math.random() * (80 - 10)) + 10;
@@ -761,7 +724,7 @@
       var ser_geometry = new THREE.BoxGeometry(10, 10, 10);
       ser.geometry = ser_geometry;
       ser.material = ser_material;
-      ser.scale.set(0.1, 0.1, 0.1);
+      ser.scale.set(0.1 * tamañoser, 0.1 * tamañoser, 0.1 * tamañoser);
       ser.position.x = ser1.position.x;
       ser.position.y = 0;
       ser.position.z = ser1.position.z;
@@ -791,20 +754,15 @@
       // console.log(nombre + " nace.");
       mostrarAcontecimiento(nombre + " nace.");
     });
-
     // console.log(ser);
   }
-
   function matar(ser1, ser2, pos1, pos2) {
     var ser1Agre = ser1.userData.agresividad;
     var ser2Agre = ser2.userData.agresividad;
-
     var ser1Recursos = ser1.userData.recursos;
     var ser2Recursos = ser2.userData.recursos;
-
     var ser1Alimento = ser1.userData.alimento;
     var ser2Alimento = ser2.userData.alimento;
-
     if (ser1Agre > ser2Agre) {
       // console.log(ser1.userData.nombre + " mató a " + ser2.userData.nombre);
       mostrarAcontecimiento(
@@ -825,7 +783,6 @@
       scene.remove(selectedObject);
       arraySeres.splice(pos2, 1);
     }
-
     if (ser1Agre < ser2Agre) {
       // console.log(ser2.userData.nombre + " mató a " + ser1.userData.nombre);
       mostrarAcontecimiento(
@@ -847,7 +804,6 @@
       arraySeres.splice(pos1, 1);
     }
   }
-
   function crearTumba(posx, posz, asesino, victima) {
     new GLTFLoader().load("./assets/tumba.glb", function (gltf) {
       var aparienciaColor = "0x999999";
@@ -855,14 +811,12 @@
         color: parseInt(aparienciaColor),
         wireframe: false,
       });
-
       const model = gltf.scene;
       model.traverse(function (object) {
         if (object.isMesh) object.castShadow = true;
         object.material = ser_material;
         object.material.color.set(aparienciaColor);
       });
-
       model.userData = {
         nombre: "Tumba",
         RIP: victima,
@@ -881,7 +835,6 @@
       arrayTumbas.push(model);
     });
   }
-
   var dia;
   var diferenciaDiaParaCalculo;
   function horaActual() {
@@ -894,23 +847,19 @@
     // console.log(dia, dia2)
     checkTiempo(dia, diferenciaDiaParaCalculo, speed);
   }
-
   function checkTiempo(dia, diferenciaDiaParaCalculo, speed) {
     if (dia != diferenciaDiaParaCalculo) {
       restarSaludSeres(speed);
     }
   }
-
   function restarSaludSeres(speed) {
     for (let j = 0; j < arraySeres.length; j++) {
       var salud = arraySeres[j].userData.salud;
       var infoSer = arraySeres[j].userData;
       var buscarId = arraySeres[j].userData.codigo;
       var selectedObject = scene.getObjectByName(buscarId);
-
       salud -= speed;
       arraySeres[j].userData.salud = salud.toFixed([2]);
-
       selectedObject.userData = {
         nombre: infoSer.nombre,
         estado: infoSer.estado,
@@ -939,7 +888,6 @@
       var nacimiento = arraySeres[i].userData.nacimiento;
       var posX = arraySeres[i].position.x;
       var posZ = arraySeres[i].position.z;
-
       if (estadoSalud <= 5) {
         new GLTFLoader().load("./assets/tumba.glb", function (gltf) {
           var aparienciaColor = "0x999999";
@@ -947,14 +895,12 @@
             color: parseInt(aparienciaColor),
             wireframe: false,
           });
-
           const model = gltf.scene;
           model.traverse(function (object) {
             if (object.isMesh) object.castShadow = true;
             object.material = ser_material;
             object.material.color.set(aparienciaColor);
           });
-
           model.userData = {
             nombre: "Tumba",
             RIP: nombre,
@@ -986,7 +932,6 @@
     var cartel = document.getElementById("info");
     cartel.style.display = "none";
   }
-
   function alimentarSer() {
     for (var i = 0; i < arraySeres.length; i++) {
       var cantidadAlimento = arraySeres[i]?.userData.alimento;
@@ -1001,7 +946,6 @@
       }
     }
   }
-
   function mostrarAcontecimiento(texto) {
     var cartel = document.getElementById("acotencimiento");
     cartel.innerHTML = "";
@@ -1018,50 +962,40 @@
       cartel.style.display = "none";
     }, 3000);
   }
-
   function actualizarListadoAcont() {
     var cartel = document.getElementById("historial");
     cartel.innerHTML = "";
     cartel.style.left = window.innerWidth / 2 - 250 + "px";
-
     var boton = document.createElement("button");
     boton.setAttribute("class", "close2");
     boton.setAttribute("onclick", "ocultarMenuHistorial()");
     boton.innerHTML = "X";
     cartel.appendChild(boton);
-
     var tabla = document.createElement("table");
     tabla.setAttribute("class", "tabla");
     tabla.setAttribute("id", "tabla");
     cartel.appendChild(tabla);
-
     var tr = document.createElement("tr");
     tabla.appendChild(tr);
-
     var th = document.createElement("th");
     th.setAttribute("class", "thTabla");
     th.innerHTML = "Dia";
     tr.appendChild(th);
-
     var th = document.createElement("th");
     th.setAttribute("class", "thTabla");
     th.innerHTML = "Acontecimiento";
     tr.appendChild(th);
-
     for (let i = 0; i < arrayAcontecimientos.length; i++) {
       var tr = document.createElement("tr");
       tabla.appendChild(tr);
-
       var th = document.createElement("th");
       th.innerHTML = arrayAcontecimientos[i].dia;
       tr.appendChild(th);
-
       var th = document.createElement("th");
       th.innerHTML = arrayAcontecimientos[i].evento;
       tr.appendChild(th);
     }
   }
-
   function regenerarRecursos() {
     var decPart = (gameTime.toFixed(2) + "").split(".")[1];
     if (
@@ -1079,10 +1013,8 @@
       bandera = 0;
     }
   }
-
   function gananciasPorTenerCasa() {
     var decPart = (gameTime.toFixed(2) + "").split(".")[1];
-
     if (
       dia % peridiocidadPorTenerCasa == 0 &&
       dia != 0 &&
@@ -1104,17 +1036,14 @@
       bandera2 = 0;
     }
   }
-
   function crearRocas() {
     for (let j = 0; j < cantidadPiedras; j++) {
       var random = Math.floor(Math.random() * (2 - 1)) + 1;
-
       new GLTFLoader().load("./assets/roca" + random + ".glb", function (gltf) {
         const recurso = gltf.scene;
         recurso.traverse(function (object) {
           if (object.isMesh) {
             object.castShadow = true;
-
             object.name = "Rocas";
             object.userData = {
               nombre: "Rocas",
@@ -1140,7 +1069,6 @@
       });
     }
   }
-
   function rotarSerAlMoverse(ser) {
     //POR HACER
     // console.log(ser)
@@ -1156,8 +1084,6 @@
     //     console.log(ser.rotation)
     // console.log(quaternion)
   }
-
-
   function crearSkybox(){
     let materialArray = [];
     let texture_up = new THREE.TextureLoader().load("img/skybox/up.jpg");
@@ -1182,10 +1108,8 @@
       tipo: "infinito",
     };
     scene.add(skybox);
-
   }
 </script>
-
 <script>
   function ocultarMenuHistorial() {
     var cartel = document.getElementById("historial");
