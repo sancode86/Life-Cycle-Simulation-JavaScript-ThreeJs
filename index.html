@@ -42,7 +42,7 @@
   var arrayTumbas = [];
   var arrayNacimientos = [];
   var arrayAsesinatos = [];
-  var cantidadSeres = 1;
+  var cantidadSeres = 50;
   var tamañoPlano = 1000;
   var spawnArea = tamañoPlano / 2;
   var tamañoser = 3;
@@ -332,7 +332,7 @@
         crear(posXSer, posZSer, 0.02, tipo, nombreSer);
         arraySeres[w].userData.recursos -= 10;
         arraySeres[w].userData.casasPropias += 1;
-        console.log(arraySeres[w].userData.nombre + " construye casa.");
+        // console.log(arraySeres[w].userData.nombre + " construye casa.");
         mostrarAcontecimiento(
           arraySeres[w].userData.nombre + " construye casa."
         );
@@ -415,7 +415,7 @@
         for (let j = 0; j < arrayRecursos.length; j++) {
           if (checkearSiSeTocan(arrayRecursos[j], arraySeres[i])) {
             var recursoABorrar = arrayRecursos[j].userData.nombre;
-            console.log(arraySeres[i].userData.nombre + " junta madera.");
+            // console.log(arraySeres[i].userData.nombre + " junta madera.");
             mostrarAcontecimiento(
               arraySeres[i].userData.nombre + " junta madera."
             );
@@ -574,12 +574,11 @@
       for (let i = 0; i < arraySeres.length; i++) {
         for (let j = 0; j < arrayAlimentos.length; j++) {
           if (checkearSiSeTocan(arrayAlimentos[j], arraySeres[i])) {
-            console.log(arraySeres[i].userData.nombre + " junta manzanas.");
+            // console.log(arraySeres[i].userData.nombre + " junta manzanas.");
             mostrarAcontecimiento(
               arraySeres[i].userData.nombre + " junta manzanas."
             );
-            var recursoABorrar = arrayAlimentos[j].userData.nombre;
-            // console.log(recursoABorrar);
+            var recursoABorrar = arrayAlimentos[j].userData.nombre;      
             var alimentoCantidad = arrayAlimentos[j].userData.cantidad;
             var selectedObject = scene.getObjectByName(recursoABorrar);
             scene.remove(selectedObject);
@@ -668,12 +667,15 @@
         arraySeres[i].userData.codigo == encontrados[0].object.userData.codigo
       ) {
         FOUND = i;
-        console.log("FOUND", FOUND);
+        // console.log("FOUND", FOUND);
         break;
       }
     }
-    if (FOUND != null || FOUND != "undefined") {
-      mostrarInfo(arraySeres[FOUND].userData);
+    if ((FOUND != null || FOUND != undefined)) {
+      if(arraySeres[FOUND] != undefined){
+
+        mostrarInfo(arraySeres[FOUND].userData);
+      }
     }
   });
 
@@ -782,7 +784,7 @@
       arraySeres.push(ser);
       arrayNacimientos.push(ser);
       scene.add(ser);
-      console.log(nombre + " nace.");
+      // console.log(nombre + " nace.");
       mostrarAcontecimiento(nombre + " nace.");
     });
 
@@ -800,7 +802,7 @@
     var ser2Alimento = ser2.userData.alimento;
 
     if (ser1Agre > ser2Agre) {
-      console.log(ser1.userData.nombre + " mató a " + ser2.userData.nombre);
+      // console.log(ser1.userData.nombre + " mató a " + ser2.userData.nombre);
       mostrarAcontecimiento(
         ser1.userData.nombre + " mató a " + ser2.userData.nombre
       );
@@ -821,7 +823,7 @@
     }
 
     if (ser1Agre < ser2Agre) {
-      console.log(ser2.userData.nombre + " mató a " + ser1.userData.nombre);
+      // console.log(ser2.userData.nombre + " mató a " + ser1.userData.nombre);
       mostrarAcontecimiento(
         ser2.userData.nombre + " mató a " + ser1.userData.nombre
       );
@@ -968,7 +970,7 @@
         });
         var nombre = arraySeres[i].userData.nombre;
         var serMuere = arraySeres[i].userData.codigo;
-        console.log(nombre + " muere.");
+        // console.log(nombre + " muere.");
         mostrarAcontecimiento(nombre + " muere.");
         var selectedObject = scene.getObjectByName(serMuere);
         scene.remove(selectedObject);
@@ -990,7 +992,7 @@
       if (cantidadAlimento > 0 && cantidadSalud < 60) {
         arraySeres[i].userData.salud += cantidadAlimento;
         arraySeres[i].userData.alimento -= cantidadAlimento;
-        console.log(arraySeres[i]?.userData.nombre + " se alimenta.");
+        // console.log(arraySeres[i]?.userData.nombre + " se alimenta.");
         mostrarAcontecimiento(arraySeres[i]?.userData.nombre + " se alimenta.");
       }
     }
@@ -1065,7 +1067,7 @@
       decPart == "01"
     ) {
       bandera = 1;
-      console.log("Regenerando Recursos");
+      // console.log("Regenerando Recursos");
       mostrarAcontecimiento("Regenerando Recursos");
       crearRecursos();
       crearAlimento();
@@ -1084,7 +1086,7 @@
       decPart == "01"
     ) {
       bandera2 = 1;
-      console.log("Ganancias por inmuebles.");
+      // console.log("Ganancias por inmuebles.");
       mostrarAcontecimiento("Ganancias por inmuebles.");
 
       for (var i = 0; i < arraySeres.length; i++) {
