@@ -99,6 +99,7 @@
 
       new GLTFLoader().load("./assets/ser.glb", function (gltf) {
         const ser = gltf.scene;
+        var nombre = generatenombre();
         var r1 = Math.floor(Math.random() * (80 - 10)) + 10;
         var r2 = Math.floor(Math.random() * (80 - 10)) + 10;
         var r3 = Math.floor(Math.random() * (80 - 10)) + 10;
@@ -122,7 +123,7 @@
           2,
           Math.random() * 2 - 1
         ).normalize();
-        var nombre = generatenombre();
+       
 
         var randomVel = Math.random() * (1.1 - 0.1) + 0.1;
         var randomSalud = (Math.random() * (150 - 95) + 95).toFixed(2);
@@ -133,6 +134,7 @@
         ser.traverse(function (object) {
           if (object.isMesh) object.castShadow = true;
           object.material = ser_material;
+          object.name = nombre + r1 + r2 + r3;;
           object.material.color.set(aparienciaColor);
           object.userData = {
             nombre: nombre,
@@ -660,8 +662,9 @@
         }
       }
     }
-    console.log(arraySeres[0].userData);
-
+    console.log("encontrados", encontrados);
+    console.log("objeto?.userData",  objeto?.userData);
+    console.log("objeto?.parent.userData", objeto?.parent.userData);
     console.log(arraySeres);
   });
 
@@ -885,17 +888,33 @@
 
   function restarSaludSeres(speed) {
     for (let j = 0; j < arraySeres.length; j++) {
-      var salud = arraySeres[j].userData.salud;
-      salud -= speed;
-      arraySeres[j].userData.salud = salud.toFixed([2]);
-
+      var salud = arraySeres[j].userData.salud;      
+      var infoSer = arraySeres[j].userData;
       var buscarId = arraySeres[j].userData.codigo;
-      var selectedObject = scene.getObjectByName(buscarId);
-      selectedObject.userData.salud = salud.toFixed([2]);
+      var selectedObject = scene.getObjectByName(buscarId);  
+      
+      salud -= speed;
+      arraySeres[j].userData.salud = salud.toFixed([2]);   
 
-      // var salud = arraySeres[j].parent.userData.salud;
-      // salud -= speed;
-      // arraySeres[j].parent.userData.salud = salud.toFixed([2]);
+      selectedObject.userData = {
+            nombre: infoSer.nombre,
+            estado: infoSer.estado,
+            salud:  salud.toFixed([2]),
+            nacimiento: infoSer.nacimiento,
+            tipo: infoSer.tipo,
+            recursos: infoSer.recursos,
+            padres: infoSer.padres,
+            antepasados: infoSer.antepasados,
+            generacion: infoSer.generacion,
+            alimento: infoSer.alimento,
+            asesinatos: infoSer.asesinatos,
+            agresividad: infoSer.agresividad,
+            casasPropias: infoSer.casasPropias,
+            color: infoSer.color,
+            velocidad: infoSer.velocidad,
+            orientacion: infoSer.orientacion,
+            codigo: infoSer.codigo,
+          };
     }
   }
   function muertePorHambre() {
