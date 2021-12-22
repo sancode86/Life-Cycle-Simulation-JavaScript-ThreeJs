@@ -33,7 +33,7 @@ If they reproduce (with other being):
 
 You can move around/zoom with Orbital Controls, and click on every object to see information.
 
-Strangely the variables are set in such a way the live in harmony, sort of. If you play a little with the killing randomness threshold for example, you'll get a bunch of massive murders. If you change the born rate variable, you'll get thousands of newborns almost everyday.
+Strangely the variables are set in such a way that they "live in harmony", or sort of. If you play a little with the killing randomness threshold for example, you'll get a bunch of massive murders. If you change the born rate variable, you'll get thousands of newborns almost everyday.
 
 You'll probably get a 'blocked by CORS policy' ERROR if you try to open the index.html file directly. You should run in on an environment. For example, you could open the project with Visual Code and use the Live Server Extension. Works perfect.
 
