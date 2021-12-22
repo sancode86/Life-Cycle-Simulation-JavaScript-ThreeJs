@@ -29,8 +29,8 @@
   import { OrbitControls } from "https://cdn.skypack.dev/three@0.133.1/examples/jsm/controls/OrbitControls.js";
   import { OBJLoader } from "https://cdn.skypack.dev/three@0.133.1/examples/jsm/loaders/OBJLoader.js";
   import { GLTFLoader } from "https://cdn.skypack.dev/three@0.133.1/examples/jsm/loaders/GLTFLoader.js";
-  var peridiocidadRegenerarRecu = 40;
-  var peridiocidadPorTenerCasa = 30;
+  var diasRegenerarRecu = 40;
+  var diasPorTenerCasa = 30;
   var gameTime = 0;
   var camera, scene, renderer, controls;
   var direction, ser;
@@ -242,9 +242,9 @@
   function generatenombre() {
     var nombre = "";
     var length = 5;
-    var characters = "bcdfghjklmnpqrstvwxyz";
+    var char = "bcdfghjklmnpqrstvwxyz";
     var vocales = "aeiou";
-    var charactersLength = characters.length;
+    var charLength = char.length;
     var vocalesLength = vocales.length;
     for (var i = 0; i < length; i++) {
       if (
@@ -254,8 +254,8 @@
         nombre[i - 1] == "o" ||
         nombre[i - 1] == "u"
       ) {
-        nombre += characters.charAt(
-          Math.floor(Math.random() * charactersLength)
+        nombre += char.charAt(
+          Math.floor(Math.random() * charLength)
         );
       } else {
         nombre += vocales.charAt(Math.floor(Math.random() * vocalesLength));
@@ -940,7 +940,7 @@
   function regenerarRecursos() {
     var decPart = (gameTime.toFixed(2) + "").split(".")[1];
     if (
-      dia % peridiocidadRegenerarRecu == 0 &&
+      dia % diasRegenerarRecu == 0 &&
       dia != 0 &&
       bandera == 0 &&
       decPart == "01"
@@ -959,7 +959,7 @@
     var decPart = (gameTime.toFixed(2) + "").split(".")[1];
 
     if (
-      dia % peridiocidadPorTenerCasa == 0 &&
+      dia % diasPorTenerCasa == 0 &&
       dia != 0 &&
       bandera2 == 0 &&
       decPart == "01"
