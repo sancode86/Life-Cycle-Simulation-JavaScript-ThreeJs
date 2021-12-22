@@ -28,7 +28,6 @@ If they reproduce (with other being):
 - The newborn always get random color and speed.
 - The newborn's profile contains information about their parents, ancestors amd current generation.
 
-
 (image 3)
 ![Life Cycle Simulation image](https://raw.githubusercontent.com/sancode86/Tribe-Simulation-ThreeJs-Javascript/master/sim3.png?token=AVS567HUKTWJ6LO6CZ5S2ZTBYJWFI)
 
@@ -36,7 +35,6 @@ You can move around/zoom with Orbital Controls, and click on every object to see
 (source code in Spanish)
 
 
-(gif)
 ![Life Cycle Simulation gif](https://raw.githubusercontent.com/sancode86/Tribe-Simulation-ThreeJs-Javascript/master/simGif.gif?token=AVS567EN5SRUT4YMM6QNHIDBYJWFO)
 
 Coded with ❤️ & ☕ 
