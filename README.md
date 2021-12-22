@@ -18,6 +18,7 @@ I made a Life Cycle Simulation in Javascript using threejs for the graphics !
 - They can die from starvation.
 - Creatures can kill others.
 - Ability to collect food and resources.
+- Ability to build houses.
 - The creature's profile contains information about their parents, ancestors, food, resources and real estate.
 
 ## Creature genes
